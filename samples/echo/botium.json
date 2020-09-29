@@ -1,0 +1,14 @@
+{
+  "botium": {
+    "Capabilities": {
+      "PROJECTNAME": "Botium Project GRPC",
+      "CONTAINERMODE": "grpc",
+      "GRPC_URL": "localhost:50051",
+      "GRPC_PROTO": "botiumgrpc.proto",
+      "GRPC_REQUEST_METHOD": "GetReply",
+      "GRPC_REQUEST_MESSAGE": "{\"text\": \"{{msg.messageText}}\", \"user_name\": \"botium\"}",
+      "GRPC_RESPONSE_FIELD": "text",
+      "GRPC_INIT_TEXT": "reset_conversation"
+    }
+  }
+}
