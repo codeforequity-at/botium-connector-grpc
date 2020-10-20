@@ -1,13 +1,14 @@
 {
-  "name": "botium-connector-websocket-sample",
+  "name": "botium-connector-grpc-sample",
   "version": "0.0.1",
   "scripts": {
     "start": "node index.js",
-    "docker:build": "docker build -t botium/websocket-sample .",
-    "docker:push": "docker push botium/websocket-sample",
-    "docker:run": "docker run --restart always -p 4053:2345 -d botium/websocket-sample"
+    "docker:build": "docker build -t botium/grpc-sample .",
+    "docker:push": "docker push botium/grpc-sample",
+    "docker:run": "docker run --restart always -p 50051:50051 -d botium/grpc-sample"
   },
   "dependencies": {
-    "ws": "^7.2.0"
+    "@grpc/proto-loader": "^0.5.5",
+    "grpc": "^1.24.3"
   }
 }

@@ -42,8 +42,10 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
+    "@grpc/proto-loader": "^0.5.5",
     "debug": "^4.2.0",
     "esprima": "^4.0.1",
+    "grpc": "^1.24.3",
     "jsonpath": "^1.0.2",
     "lodash": "^4.17.20",
     "mime-types": "^2.1.27",

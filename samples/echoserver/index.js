@@ -1,25 +1,36 @@
-const WebSocket = require('ws')
+const grpc = require('grpc')
+const protoLoader = require('@grpc/proto-loader')
 
-const wss = new WebSocket.Server({ port: 2345 })
+const PROTO_PATH = './protos/botiumgrpc.proto'
 
-wss.on('connection', (ws) => {
-  console.log('connection established')
-  ws.send(JSON.stringify({
-    conversationId: 'none',
-    text: 'Welcome!'
-  }))
-  ws.on('message', (message) => {
-    console.log('received: %s', message)
-    const content = JSON.parse(message)
-    ws.send(JSON.stringify({
-      conversationId: content.conversationId,
-      text: 'Got your question.'
-    }))
-    ws.send(JSON.stringify({
-      conversationId: content.conversationId,
-      text: 'You said: ' + content.text
-    }))
+const packageDefinition = protoLoader.loadSync(
+  PROTO_PATH,
+  {
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true
   })
-})
+const proto = grpc.loadPackageDefinition(packageDefinition).botium
 
-console.log('Waiting for connections on ws://127.0.0.1:2345')
+/**
+ * Implements the getReply RPC method.
+ */
+function getReply (call, callback) {
+  callback(null, { text: 'Echo: ' + call.request.text })
+}
+
+/**
+ * Starts an RPC server that receives requests for the Echo service at the
+ * sample server port
+ */
+function main () {
+  const server = new grpc.Server()
+  server.addService(proto.Echo.service, { getReply: getReply })
+  server.bind('0.0.0.0:50051', grpc.ServerCredentials.createInsecure())
+  server.start()
+  console.log('gRPC server start on http://127.0.0.1:50051')
+}
+
+main()

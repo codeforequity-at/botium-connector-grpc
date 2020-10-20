@@ -1,6 +1,6 @@
 version: '3.0'
 services:
   websocket:
-    image: botium/websocket-sample
+    image: botium/grpc-sample
     ports:
-      - 4053:2345
+      - 50051:50051

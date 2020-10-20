@@ -1,13 +1,7 @@
 hi
 
-#bot
-Welcome!
-
 #me
 Hi
 
 #bot
-Got your question.
-
-#bot
-You said: Hi
+Echo: Hi
