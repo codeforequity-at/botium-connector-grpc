@@ -8,8 +8,8 @@
       "GRPC_PROTO_PACKAGE": "botium",
       "GRPC_PROTO_SERVICE": "Echo",
       "GRPC_REQUEST_METHOD": "getReply",
-      "GRPC_REQUEST_MESSAGE": "{\"text\": \"{{msg.messageText}}\", \"user_name\": \"botium\"}",
-      "GRPC_RESPONSE_FIELD": "text"
+      "GRPC_REQUEST_MESSAGE_TEMPLATE": "{\"text\": \"{{msg.messageText}}\", \"user_name\": \"botium\"}",
+      "GRPC_RESPONSE_TEXTS_JSONPATH": "text"
     }
   }
 }
