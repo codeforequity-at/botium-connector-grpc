@@ -2,7 +2,7 @@
 
 [![NPM](https://nodei.co/npm/botium-connector-grpc.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/botium-connector-grpc/)
 
-[![Codeship Status for codeforequity-at/botium-connector-grpc](https://app.codeship.com/projects/2b082bfb-7969-4238-87b7-da396ac59843/status?branch=master)](TODO: https://app.codeship.com/projects/371437)
+[![Codeship Status for codeforequity-at/botium-connector-grpc](https://app.codeship.com/projects/2b082bfb-7969-4238-87b7-da396ac59843/status?branch=master)](https://app.codeship.com/projects/2b082bfb-7969-4238-87b7-da396ac59843)
 [![npm version](https://badge.fury.io/js/botium-connector-grpc.svg)](https://badge.fury.io/js/botium-connector-grpc)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
 

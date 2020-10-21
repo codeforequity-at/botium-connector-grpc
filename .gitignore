@@ -63,3 +63,6 @@ typings/
 package-lock.json
 dist
 *.local.json
+
+# IDE
+.idea/
