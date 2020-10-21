@@ -38,7 +38,8 @@
     "rollup-plugin-babel": "^4.4.0",
     "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-json": "^4.0.0",
-    "rollup-plugin-node-resolve": "^5.2.0"
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "sanitize-filename": "^1.6.3"
   },
   "dependencies": {
     "@babel/runtime": "^7.11.2",
@@ -49,8 +50,10 @@
     "jsonpath": "^1.0.2",
     "lodash": "^4.17.20",
     "mime-types": "^2.1.27",
+    "mkdirp": "^1.0.4",
     "mustache": "^4.0.1",
-    "uuid": "^8.3.0"
+    "randomatic": "^3.1.1",
+    "rimraf": "^3.0.2"
   },
   "peerDependencies": {
     "botium-core": ">= 1.9.10"

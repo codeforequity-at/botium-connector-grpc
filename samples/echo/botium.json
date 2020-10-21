@@ -4,7 +4,7 @@
       "PROJECTNAME": "Botium Project GRPC",
       "CONTAINERMODE": "grpc",
       "GRPC_URL": "localhost:50051",
-      "GRPC_PROTO": "../echoserver/protos/botiumgrpc.proto",
+      "GRPC_PROTO_PATH": "../echoserver/protos/botiumgrpc.proto",
       "GRPC_PROTO_PACKAGE": "botium",
       "GRPC_PROTO_SERVICE": "Echo",
       "GRPC_REQUEST_METHOD": "getReply",

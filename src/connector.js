@@ -1,5 +1,11 @@
+const path = require('path')
+const fs = require('fs')
 const util = require('util')
 const _ = require('lodash')
+const mkdirp = require('mkdirp')
+const rimraf = require('rimraf')
+const randomize = require('randomatic')
+const sanitize = require('sanitize-filename')
 const Mustache = require('mustache')
 const jp = require('jsonpath')
 const grpc = require('grpc')
@@ -8,15 +14,13 @@ const debug = require('debug')('botium-connector-grpc')
 
 const Capabilities = {
   GRPC_URL: 'GRPC_URL',
+  GRPC_PROTO_PATH: 'GRPC_PROTO_PATH',
   GRPC_PROTO: 'GRPC_PROTO',
   GRPC_PROTO_PACKAGE: 'GRPC_PROTO_PACKAGE',
   GRPC_PROTO_SERVICE: 'GRPC_PROTO_SERVICE',
   GRPC_REQUEST_METHOD: 'GRPC_REQUEST_METHOD',
   GRPC_REQUEST_MESSAGE_TEMPLATE: 'GRPC_REQUEST_MESSAGE_TEMPLATE',
   GRPC_RESPONSE_TEXTS_JSONPATH: 'GRPC_RESPONSE_TEXTS_JSONPATH'
-}
-
-const Defaults = {
 }
 
 class BotiumConnectorGRPC {
@@ -27,10 +31,10 @@ class BotiumConnectorGRPC {
 
   Validate () {
     debug('Validate called')
-    this.caps = Object.assign({}, Defaults, this.caps)
+    this.caps = Object.assign({}, this.caps)
 
     if (!this.caps[Capabilities.GRPC_URL]) throw new Error('GRPC_URL capability required')
-    if (!this.caps[Capabilities.GRPC_PROTO]) throw new Error('GRPC_PROTO capability required')
+    if (!this.caps[Capabilities.GRPC_PROTO] && !this.caps[Capabilities.GRPC_PROTO_PATH]) throw new Error('GRPC_PROTO or GRPC_PROTO_PATH capability has be filled')
     if (!this.caps[Capabilities.GRPC_PROTO_PACKAGE]) throw new Error('GRPC_PROTO_PACKAGE capability required')
     if (!this.caps[Capabilities.GRPC_PROTO_SERVICE]) throw new Error('GRPC_PROTO_SERVICE capability required')
     if (!this.caps[Capabilities.GRPC_REQUEST_METHOD]) throw new Error('GRPC_REQUEST_METHOD capability required')
@@ -40,9 +44,18 @@ class BotiumConnectorGRPC {
 
   async Start () {
     debug('Start called')
-    const PROTO_PATH = this.caps[Capabilities.GRPC_PROTO]
+    let protoPath
+    if (this.caps[Capabilities.GRPC_PROTO_PATH]) {
+      protoPath = this.caps[Capabilities.GRPC_PROTO_PATH]
+    } else {
+      this.workDir = path.join(process.env.BOTIUM_TEMPDIR || './botiumwork', sanitize(`grpc_${this.caps[Capabilities.GRPC_PROTO_SERVICE]}_${randomize('Aa0', 5)}`))
+      mkdirp.sync(this.workDir)
+      protoPath = path.join(this.workDir, 'botiumgrpc.proto')
+      fs.writeFileSync(protoPath, this.caps[Capabilities.GRPC_PROTO])
+    }
+
     const packageDefinition = protoLoader.loadSync(
-      PROTO_PATH,
+      protoPath,
       {
         keepCase: true,
         longs: String,
@@ -62,7 +75,7 @@ class BotiumConnectorGRPC {
     }
 
     let args = {}
-    if (this.caps[Capabilities.GRPC_REQUEST_MESSAGE]) {
+    if (this.caps[Capabilities.GRPC_REQUEST_MESSAGE_TEMPLATE]) {
       try {
         args = this._getMustachedCap(Capabilities.GRPC_REQUEST_MESSAGE_TEMPLATE, view, true)
       } catch (err) {
@@ -92,6 +105,13 @@ class BotiumConnectorGRPC {
 
   async Stop () {
     debug('Stop called')
+    if (this.workDir) {
+      rimraf(this.workDir, (err) => {
+        if (err) {
+          debug(`Failed rimraf ${this.workDir}: ${err}`)
+        }
+      })
+    }
   }
 
   _getMustachedCap (capName, view, json) {
