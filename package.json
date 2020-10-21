@@ -1,6 +1,6 @@
 {
   "name": "botium-connector-grpc",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Botium Connector for GRPC Endpoint",
   "main": "dist/botium-connector-grpc-cjs.js",
   "module": "dist/botium-connector-grpc-es.js",

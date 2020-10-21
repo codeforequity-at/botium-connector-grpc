@@ -57,7 +57,7 @@ then create a botium.json in your project directory with the corresponding gRPC 
       "PROJECTNAME": "Botium Project GRPC",
       "CONTAINERMODE": "grpc",
       "GRPC_URL": "localhost:50051",
-      "GRPC_PROTO": "../echoserver/protos/botiumgrpc.proto",
+      "GRPC_PROTO_PATH": "../echoserver/protos/botiumgrpc.proto",
       "GRPC_PROTO_PACKAGE": "botium",
       "GRPC_PROTO_SERVICE": "Echo",
       "GRPC_REQUEST_METHOD": "getReply",
@@ -68,8 +68,12 @@ then create a botium.json in your project directory with the corresponding gRPC 
 }
 ```
 
-To check the configuration, run the emulator (Botium CLI required) to bring up a chat interface in your terminal window:
+To check the configuration (Botium CLI required), run the `hello` command to say "hello" to check connectivity or run the `emulator` to bring up a chat interface in your terminal window:
 
+```
+> botium-cli hello
+```
+or
 ```
 > botium-cli emulator
 ```
@@ -98,8 +102,11 @@ Set the capability __CONTAINERMODE__ to __grpc__ to activate this connector.
 ### GRPC_URL
 gRPC server URL
 
-### GRPC_PROTO
+### GRPC_PROTO_PATH
 Relative url of you .proto file
+
+### GRPC_PROTO
+The content of .proto file in plain text. (If you use this capability, you have to remove GRPC_PROTO_PATH capability.)
 
 ### GRPC_PROTO_PACKAGE
 The package defined in your .proto file
