@@ -35,7 +35,6 @@ class BotiumConnectorGRPC {
 
     if (!this.caps[Capabilities.GRPC_URL]) throw new Error('GRPC_URL capability required')
     if (!this.caps[Capabilities.GRPC_PROTO] && !this.caps[Capabilities.GRPC_PROTO_PATH]) throw new Error('GRPC_PROTO or GRPC_PROTO_PATH capability has be filled')
-    if (!this.caps[Capabilities.GRPC_PROTO_PACKAGE]) throw new Error('GRPC_PROTO_PACKAGE capability required')
     if (!this.caps[Capabilities.GRPC_PROTO_SERVICE]) throw new Error('GRPC_PROTO_SERVICE capability required')
     if (!this.caps[Capabilities.GRPC_REQUEST_METHOD]) throw new Error('GRPC_REQUEST_METHOD capability required')
     if (!this.caps[Capabilities.GRPC_REQUEST_MESSAGE_TEMPLATE]) throw new Error('GRPC_REQUEST_MESSAGE_TEMPLATE capability required')
@@ -63,7 +62,12 @@ class BotiumConnectorGRPC {
         defaults: true,
         oneofs: true
       })
-    const proto = grpc.loadPackageDefinition(packageDefinition)[this.caps[Capabilities.GRPC_PROTO_PACKAGE]]
+    let proto
+    if (this.caps[Capabilities.GRPC_PROTO_PACKAGE] && this.caps[Capabilities.GRPC_PROTO_PACKAGE] !== '') {
+      proto = grpc.loadPackageDefinition(packageDefinition)[this.caps[Capabilities.GRPC_PROTO_PACKAGE]]
+    } else {
+      proto = grpc.loadPackageDefinition(packageDefinition)
+    }
     this.grpcClient = new proto[this.caps[Capabilities.GRPC_PROTO_SERVICE]](this.caps[Capabilities.GRPC_URL], grpc.credentials.createInsecure())
   }
 
